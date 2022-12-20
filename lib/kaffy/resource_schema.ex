@@ -19,7 +19,7 @@ defmodule Kaffy.ResourceSchema do
     end
   end
 
-  def index_fields(schema) do
+  def index_fields(_conn, schema) do
     Keyword.drop(fields(schema), fields_to_be_removed(schema))
   end
 
@@ -123,8 +123,8 @@ defmodule Kaffy.ResourceSchema do
     end
   end
 
-  def has_field_filters?(resource) do
-    admin_fields = Kaffy.ResourceAdmin.index(resource)
+  def has_field_filters?(conn, resource) do
+    admin_fields = Kaffy.ResourceAdmin.index(conn, resource)
 
     fields_with_filters =
       Enum.map(admin_fields, fn f -> kaffy_field_filters(resource[:schema], f) end)

@@ -22,7 +22,7 @@ defmodule KaffyWeb.ResourceController do
         unauthorized_access(conn)
 
       true ->
-        fields = Kaffy.ResourceAdmin.index(my_resource)
+        fields = Kaffy.ResourceAdmin.index(conn, my_resource)
         {filtered_count, entries} = Kaffy.ResourceQuery.list_resource(conn, my_resource, params)
         items_per_page = Map.get(params, "limit", "100") |> String.to_integer()
         page = Map.get(params, "page", "1") |> String.to_integer()
@@ -46,7 +46,8 @@ defmodule KaffyWeb.ResourceController do
           prev_class: prev_class,
           list_pages: list_pages,
           entries: entries,
-          params: params
+          params: params,
+          conn: conn
         )
     end
   end
@@ -59,7 +60,7 @@ defmodule KaffyWeb.ResourceController do
         unauthorized_access(conn)
 
       true ->
-        fields = Kaffy.ResourceAdmin.index(my_resource)
+        fields = Kaffy.ResourceAdmin.index(conn, my_resource)
         {filtered_count, entries} = Kaffy.ResourceQuery.list_resource(conn, my_resource, params)
         items_per_page = Map.get(params, "limit", "100") |> String.to_integer()
         page = Map.get(params, "page", "1") |> String.to_integer()
@@ -83,7 +84,8 @@ defmodule KaffyWeb.ResourceController do
           prev_class: prev_class,
           list_pages: list_pages,
           entries: entries,
-          params: params
+          params: params,
+          conn: conn
         )
     end
   end
@@ -109,7 +111,8 @@ defmodule KaffyWeb.ResourceController do
             my_resource: my_resource,
             resource_name: resource_name,
             schema: schema,
-            entry: entry
+            entry: entry,
+            conn: conn
           )
         else
           put_flash(conn, :error, "The resource you are trying to visit does not exist!")
